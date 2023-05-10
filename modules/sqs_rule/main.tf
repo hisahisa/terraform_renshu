@@ -3,7 +3,7 @@ locals {
   sqs_queues = distinct(flatten([
     for sqs in var.sqs_names : [
       for bucket_arn in var.s3_bucket_arns : {
-        sqs_name    = sqs
+        sqs_name    = "${sqs}-${terraform.workspace}"
         bucket_arn = bucket_arn
       }
     ]

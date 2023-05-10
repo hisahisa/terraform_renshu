@@ -3,7 +3,7 @@ locals {
   schema_privileges = distinct(flatten([
     for bucket in var.s3_bucket_names : [
       for folder in var.s3_folders : {
-        bucket    = bucket
+        bucket    = "${bucket}-${terraform.workspace}"
         folder = folder
       }
     ]
@@ -12,7 +12,7 @@ locals {
 
 resource "aws_s3_bucket" "s3_event_bucket" {
   for_each         = toset(var.s3_bucket_names)
-  bucket        = each.key
+  bucket        ="${each.key}-${terraform.workspace}"
   tags = var.tags
 }
 
